@@ -44,7 +44,10 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  async function addMovieHandler(movie) {
+  async function addMovieHandler(
+    movie,
+    { titleRef, openingTextRef, releaseDateRef }
+  ) {
     console.log(movie);
 
     try {
@@ -58,8 +61,16 @@ function App() {
           },
         }
       );
-
       console.log(response);
+
+      if (response.ok) {
+        // Reset form fields to empty strings after successful HTTP POST
+        titleRef.current.value = '';
+        openingTextRef.current.value = '';
+        releaseDateRef.current.value = '';
+      } else {
+        console.log(response.status);
+      }
 
       const data = await response.json();
       console.log(data);
